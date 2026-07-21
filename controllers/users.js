@@ -1,5 +1,5 @@
 const User = require("../models/user");
-const { INTERNAL_SERVER_ERROR, BAD_REQUEST, NOT_FOUND, OK, CONFLICT  } = require("../utils/errors");
+const { INTERNAL_SERVER_ERROR, BAD_REQUEST, NOT_FOUND, OK, CONFLICT, UNAUTHORIZED  } = require("../utils/errors");
 
 const getUsers = (req, res) => {
     User.find({})
@@ -35,7 +35,7 @@ const createUser = (req, res) => {
     if (err.name === 'ValidationError') {
       return res.status(BAD_REQUEST ).send({ message: "Invalid user data" });
     }
-    else if (err.code === 11000) {
+    if (err.code === 11000) {
       return res.status(CONFLICT).send({ message: "Email already exists" });
     }
     return res.status(INTERNAL_SERVER_ERROR).send({message: "Server error occurred" });
@@ -62,7 +62,7 @@ const updateUser = (req, res) => {
       if (!user) {
         return res.status(NOT_FOUND).send({ message: 'User not found' });
       }
-      res.status(OK).send(user);
+      return res.status(OK).send(user);
     })
     .catch((err) => {
       console.error(err);

@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const mainRouter = require("./routes/index");
 const User = require("./models/user");
+// const auth = require("./middlewares/auth");
 const { NOT_FOUND, UNAUTHORIZED } = require("./utils/errors");
 
 const app = express();
@@ -15,15 +16,16 @@ mongoose
   .connect("mongodb://127.0.0.1:27017/wtwr_db")
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: "...",
-  };
-  next();
-});
+// app.use((req, res, next) => {
+//   req.user = {
+//     _id: "...",
+//   };
+//   next();
+// });
 
 app.use(express.json());
 app.use("/", mainRouter);
+// app.use('/', auth, require('./routes/posts'));
 
 app.post("/signup", (req, res) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
@@ -57,4 +59,4 @@ app.post("/signin", (req, res) => {
 });
 
 app.listen(PORT)
-console.log(`App listening on port ${PORT}`);
+// console.log(`App listening on port ${PORT}`);

@@ -68,7 +68,7 @@ const deleteClothingItem = (req, res) => {
           .status(FORBIDDEN)
           .send({ message: "You are not authorized to delete this clothing item" });
       }
-      return resn
+      return res
         .status(INTERNAL_SERVER_ERROR)
         .send({ message: "Server error occurred" });
     });
