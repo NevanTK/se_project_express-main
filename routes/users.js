@@ -4,11 +4,11 @@ const { getCurrentUser, createUser, loginUser, updateUser } = require("../contro
 // const User = require("../models/user");
 
 
-router.post("/signup", createUser);
-router.post("/login", loginUser);
-router.patch("/me", auth, updateUser);
-router.get("/me", auth, getCurrentUser);
-// router.patch("/me", auth,);
+router.post("/users/signup", createUser);
+router.post("/users/signin", loginUser);
+router.patch("/users/me", auth, updateUser);
+router.get("/users/me", auth, getCurrentUser);
+// router.patch("/users/me", auth,);
 
 
 module.exports = router;

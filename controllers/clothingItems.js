@@ -40,15 +40,7 @@ const deleteClothingItem = (req, res) => {
   const { clothingItemId } = req.params;
   ClothingItem.findByIdAndDelete(clothingItemId)
     .orFail(new Error("DocumentNotFoundError"))
-    .then((user) =>{
-      if (!user) {
-        return res.status(NOT_FOUND).send({ message: "Clothing item not found" });
-      }
-      return res
-        .status(OK)
-        .send({ message: "Clothing item deleted successfully" });
-})
-    .then(() =>
+   .then(() =>
       res.status(OK).send({ message: "Clothing item deleted successfully" })
     )
     .catch((err) => {

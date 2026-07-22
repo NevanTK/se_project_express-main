@@ -10,7 +10,7 @@ const {
 } = require("../controllers/clothingItems");
 
 router.post("/", auth, createClothingItem);
-router.get("/", auth, getClothingItem);
+router.get("/", getClothingItem);
 router.delete("/:clothingItemId", auth, deleteClothingItem);
 router.put("/:itemId/likes", auth, likeClothingItem);
 router.delete("/:itemId/likes", auth, dislikeClothingItem);
