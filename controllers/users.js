@@ -13,8 +13,8 @@ const getUsers = (req, res) => {
 };
 
 const getCurrentUser = (req, res) => {
-  const { userId } = req.user;
-  User.findById(userId).orFail(new Error('UserNotFound'))
+  const { _id } = req.user;
+  User.findById(_id).orFail(new Error('UserNotFound'))
     .then((user) => res.status(OK).send(user))
     .catch((err) => {
       console.error(err);
