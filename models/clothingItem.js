@@ -11,7 +11,7 @@ const clothingItemSchema = new mongoose.Schema({
   weather: {
     type: String,
     required: true,
-    enum:["hot", "warm", "cold"]
+    enum: ["hot", "warm", "cold"],
   },
   imageUrl: {
     type: String,
@@ -20,22 +20,22 @@ const clothingItemSchema = new mongoose.Schema({
       validator(value) {
         return validator.isURL(value);
       },
-      message: 'You must enter a valid URL',
-    }
+      message: "You must enter a valid URL",
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
-    required: true
+    required: true,
   },
   likes: {
     type: [mongoose.Schema.Types.ObjectId],
-    default: []
+    default: [],
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("ClothingItem", clothingItemSchema);

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const NotFoundError = require("../utils/errors").NotFoundError;
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -38,6 +39,17 @@ const userSchema = new mongoose.Schema({
     minlength: 8, 
   },
 });
+
+// module.exports.getProfile = (req, res, next) => {
+//   User.findOne({ _id: req.user._id })
+//     .then((user) => {
+//       if (!user) {
+//         throw new NotFoundError("User not found");
+//       }
+//       res.send(user);
+//     })
+//     .catch(next);
+// };
 
 userSchema.statics.findUserByCredentials = function findUserByCredentials(
   email,
