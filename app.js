@@ -27,10 +27,10 @@ app.use((err, req, res, next) => {
   return res.status(statusCode).send({ message });
 });
 
-// if (require.main === module) {
-//   app.listen(PORT, () => {
-//     console.log(`App listening on port ${PORT}`);
-//   });
-// }
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}`);
+  });
+}
 
 module.exports = app;
