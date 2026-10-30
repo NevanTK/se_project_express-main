@@ -15,8 +15,15 @@ mongoose
   .connect("mongodb://127.0.0.1:27017/wtwr_db")
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
+
 app.use(express.json());
 app.use(requestLogger);
+
 app.use("/", mainRouter);
 app.use(errorLogger);
 app.use(errors());
