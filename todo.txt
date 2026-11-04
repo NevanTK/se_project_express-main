@@ -1,1 +1,1 @@
-implement new error handling
+add celebrate schema to clthing itms routes

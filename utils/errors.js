@@ -62,7 +62,7 @@ module.exports = {
   CONFLICT,
   UNAUTHORIZED,
   FORBIDDEN,
-    InternalServerError,
+  InternalServerError,
   NotFoundError,
   BadRequestError,
   ConflictError,

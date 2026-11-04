@@ -24,10 +24,6 @@ app.get('/crash-test', () => {
 app.use(express.json());
 app.use(requestLogger);
 
-app.use("/", mainRouter);
-app.use(errorLogger);
-app.use(errors());
-
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message =
@@ -41,5 +37,11 @@ if (require.main === module) {
     console.log(`App listening on port ${PORT}`);
   });
 }
+
+app.use("/", mainRouter);
+app.use(errorLogger);
+app.use(errors());
+
+
 
 module.exports = app;
