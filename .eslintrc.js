@@ -21,8 +21,6 @@ module.exports = {
   },
   rules: {"no-console": ["warn", {"allow": ["error"]}],
   "camelcase": ["error", {"properties": "never"}],
-  "max-classes-per-file": ["error", 6],
   "no-underscore-dangle": ["error", {"allow": ["_id"]}],
-  "no-unused-vars": ["error", {"argsIgnorePattern": "next"}],
   },
 };

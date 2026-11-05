@@ -1,11 +1,9 @@
 const ClothingItem = require("../models/clothingItem");
-const {
-  OK,
-  InternalServerError,
-  NotFoundError,
-  BadRequestError,
-  ForbiddenError,
-} = require("../utils/errors");
+const Ok = require("../utils/OK");
+const InternalServerError = require("../utils/Internal");
+const NotFoundError = require("../utils/NotFound");
+const BadRequestError = require("../utils/BadRequest");
+const ForbiddenError = require("../utils/Forbidden");
 
 const createClothingItem = (req, res, next) => {
   const { name, weather, imageUrl } = req.body;
@@ -45,7 +43,7 @@ const deleteClothingItem = (req, res, next) => {
       return item.deleteOne();
     })
     .then(() => {
-      res.status(OK).send({ message: "Clothing item deleted successfully" });
+      res.status(Ok).send({ message: "Clothing item deleted successfully" });
     })
     .catch((err) => {
       console.error(err);

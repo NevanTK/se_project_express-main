@@ -1,15 +1,12 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const {
-  BAD_REQUEST,
-  OK,
-  NotFoundError,
-  BadRequestError,
-  InternalServerError,
-  UnauthorizedError,
-  ConflictError,
-} = require("../utils/errors");
+const Ok = require("../utils/OK");
+const InternalServerError = require("../utils/Internal");
+const NotFoundError = require("../utils/NotFound");
+const BadRequestError = require("../utils/BadRequest");
+const ConflictError = require("../utils/Conflict");
+const UnauthorizedError = require("../utils/Unauthorized");
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -28,7 +25,7 @@ const getCurrentUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError("User not found");
       }
-      res.status(OK).send(user);
+      res.status(Ok).send(user);
     })
     .catch((err) => {
       console.error(err);
@@ -49,7 +46,7 @@ const createUser = (req, res, next) => {
     .hash(password, 10)
     .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) =>
-      res.status(OK).send({
+      res.status(Ok).send({
         _id: user._id,
         name: user.name,
         avatar: user.avatar,
@@ -72,7 +69,7 @@ const loginUser = (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res
-      .status(BAD_REQUEST)
+      .status(BadRequestError)
       .send({ message: "Email and password are required" });
   }
   const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
@@ -106,7 +103,7 @@ const updateUser = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError("User not found"));
       }
-      return res.status(OK).send(user);
+      return res.status(Ok).send(user);
     })
     .catch((err) => {
       console.error(err);
