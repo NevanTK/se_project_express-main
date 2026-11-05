@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const NotFoundError = require("../utils/NotFound");
 const { createUser, loginUser } = require("../controllers/users");
-
 const userRouter = require("./users");
 const clothingItemsRouter = require("./clothingItems");
+const { signupValidation, loginValidation } = require("../middlewares/validation");
 
 // router.post('/post', celebrate({
 //   body: Joi.object().keys({
@@ -12,13 +12,13 @@ const clothingItemsRouter = require("./clothingItems");
 //   }),
 // }), createPost);
 
-router.post("/signup", createUser);
-router.post("/signin", loginUser);
+router.post("/signup", signupValidation, createUser);
+router.post("/signin", loginValidation, loginUser);
 router.use("/items", clothingItemsRouter);
 router.use("/users", userRouter);
 
-router.use((req, res) => {
-  res.status(NotFoundError).send({ message: "Requested resource not found" });
+router.use((req, res, next) => {
+  next(new NotFoundError("Requested resource not found"));
 });
 
 module.exports = router;

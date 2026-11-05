@@ -8,6 +8,44 @@ const validateURL = (value, helpers) => {
   return helpers.error("string.uri");
 };
 
+const signupValidation = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string()
+      .required()
+      .email()
+      .messages({
+        "string.empty": "Email is required",
+        "string.email": "Invalid email format",
+      }),
+
+    password: Joi.string()
+      .required()
+      .min(8)
+      .messages({
+        "string.empty": "Password is required",
+        "string.min": "Password must be at least 8 characters long",
+      }),
+
+    name: Joi.string()
+      .required()
+      .min(2)
+      .max(30)
+      .messages({
+        "string.empty": "Name is required",
+        "string.min": "Name must be at least 2 characters long",
+        "string.max": "Name must be at most 30 characters long",
+      }),
+
+    avatar: Joi.string()
+      .required()
+      .custom(validateURL, "URL validation")
+      .messages({
+        "string.empty": "Avatar URL is required",
+        "string.uri": "Invalid avatar URL",
+      }),
+  }),
+});
+
 const userValidation = celebrate({
   body: Joi.object().keys({
     email: Joi.string()
@@ -74,6 +112,12 @@ const clothingItemIdValidation = celebrate({
   }),
 });
 
+const deleteClothingItemValidation = celebrate({
+  params: Joi.object().keys({
+    clothingItemId: Joi.string().hex().length(24).required(),
+  }),
+});
+
 const loginValidation = celebrate({
   body: Joi.object().keys({
     email: Joi.string()
@@ -94,5 +138,7 @@ module.exports = {
   userValidation,
   clothingItemValidation,
   clothingItemIdValidation,
+  deleteClothingItemValidation,
   loginValidation,
+  signupValidation,
 };
