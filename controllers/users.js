@@ -68,9 +68,7 @@ const createUser = (req, res, next) => {
 const loginUser = (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res
-      .status(BadRequestError)
-      .send({ message: "Email and password are required" });
+    return next(new BadRequestError("Email and password are required"));
   }
   const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
 
