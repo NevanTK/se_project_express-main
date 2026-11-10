@@ -1,108 +1,36 @@
-const { Joi, celebrate } = require("celebrate");
-const validator = require("validator");
+const celebrate = require("celebrate");
 
-const validateURL = (value, helpers) => {
-  if (validator.isURL(value)) {
-    return value;
-  }
-  return helpers.error("string.uri");
-};
+const { Joi } = celebrate;
 
 const signupValidation = celebrate({
   body: Joi.object().keys({
-    email: Joi.string()
-      .required()
-      .email()
-      .messages({
-        "string.empty": "Email is required",
-        "string.email": "Invalid email format",
-      }),
+    email: Joi.string().required().email(),
 
-    password: Joi.string()
-      .required()
-      .min(8)
-      .messages({
-        "string.empty": "Password is required",
-        "string.min": "Password must be at least 8 characters long",
-      }),
+    password: Joi.string().required().min(8),
 
-    name: Joi.string()
-      .required()
-      .min(2)
-      .max(30)
-      .messages({
-        "string.empty": "Name is required",
-        "string.min": "Name must be at least 2 characters long",
-        "string.max": "Name must be at most 30 characters long",
-      }),
+    name: Joi.string().required().min(2).max(30),
 
-    avatar: Joi.string()
-      .required()
-      .custom(validateURL, "URL validation")
-      .messages({
-        "string.empty": "Avatar URL is required",
-        "string.uri": "Invalid avatar URL",
-      }),
+    avatar: Joi.string().required().uri({ scheme: ["http", "https"] }),
   }),
 });
 
 const userValidation = celebrate({
   body: Joi.object().keys({
-    email: Joi.string()
-      .required()
-      .email()
-      .$messages({
-        "string.empty": "Email is required",
-        "string.email": "Invalid email format",
-      }),
+    email: Joi.string().required().email(),
 
-    password: Joi.string()
-      .required()
-      .min(8)
-      .messages({
-        "string.empty": "Password is required",
-        "string.min": "Password must be at least 8 characters long",
-      }),
+    password: Joi.string().required().min(8),
 
-    userName: Joi.string()
-      .required()
-      .min(2)
-      .max(30)
-      .messages({
-        "string.empty": "User name is required",
-        "string.min": "User name must be at least 2 characters long",
-        "string.max": "User name must be at most 30 characters long",
-      }),
+    userName: Joi.string().required().min(2).max(30),
 
-    userAvatar: Joi.string()
-      .required()
-      .custom(validateURL, "URL validation")
-      .messages({
-        "string.empty": "User avatar URL is required",
-        "string.uri": "Invalid user avatar URL",
-      }),
+    userAvatar: Joi.string().required().uri({ scheme: ["http", "https"] }),
   }),
 });
 
 const clothingItemValidation = celebrate({
   body: Joi.object().keys({
-    name: Joi.string()
-      .required()
-      .min(2)
-      .max(30)
-      .messages({
-        "string.empty": "Name is required",
-        "string.min": "Name must be at least 2 characters long",
-        "string.max": "Name must be at most 30 characters long",
-      }),
+    name: Joi.string().required().min(2).max(30),
 
-    imageUrl: Joi.string()
-      .required()
-      .custom(validateURL, "URL validation")
-      .messages({
-        "string.empty": "Image URL is required",
-        "string.uri": "Invalid image URL",
-      }),
+    imageUrl: Joi.string().required().uri({ scheme: ["http", "https"] }),
   }),
 });
 
@@ -120,17 +48,9 @@ const deleteClothingItemValidation = celebrate({
 
 const loginValidation = celebrate({
   body: Joi.object().keys({
-    email: Joi.string()
-      .required()
-      .email()
-      .messages({
-        "string.empty": "Email is required",
-        "string.email": "Invalid email format",
-      }),
+    email: Joi.string().required().email(),
 
-    password: Joi.string()
-      .required()
-      .messages({ "string.empty": "Password is required" }),
+    password: Joi.string().required(),
   }),
 });
 
