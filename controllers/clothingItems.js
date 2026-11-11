@@ -30,43 +30,41 @@ const getClothingItem = (req, res, next) => {
 const deleteClothingItem = (req, res, next) => {
   const { clothingItemId } = req.params;
 
-  ClothingItem.findByIdAndDelete(clothingItemId)
-    .orFail(new NotFoundError("DocumentNotFoundError"))
+  ClothingItem.findOneAndDelete({
+    _id: clothingItemId,
+    owner: req.user._id,
+  })
     .then((item) => {
-      if (item.owner.toString() !== req.user._id.toString()) {
-        throw new ForbiddenError(
-          "You are not authorized to delete this clothing item"
-        );
+      if (item) {
+        return res
+          .status(200)
+          .send({ message: "Clothing item deleted successfully" });
       }
 
-      return item.deleteOne();
-    })
-    .then(() => {
-      res.status(200).send({ message: "Clothing item deleted successfully" });
+      return ClothingItem.exists({ _id: clothingItemId }).then((exists) => {
+        if (exists) {
+          return next(
+            new ForbiddenError(
+              "You are not authorized to delete this clothing item"
+            )
+          );
+        }
+        return next(new NotFoundError("Clothing item not found"));
+      });
     })
     .catch((err) => {
       console.error(err);
-      if (err instanceof NotFoundError || err instanceof ForbiddenError) {
-        return next(err);
-      }
       if (err.name === "CastError") {
         return next(new BadRequestError("Invalid clothing item ID"));
-      }
-      if (err.name === "ForbiddenError") {
-        return next(
-          new ForbiddenError(
-            "You are not authorized to delete this clothing item"
-          )
-        );
       }
       return next(new InternalServerError("Server error occurred"));
     });
 };
 
 const likeClothingItem = (req, res, next) => {
-  const { itemId } = req.params;
+  const { clothingItemId } = req.params;
   ClothingItem.findByIdAndUpdate(
-    itemId,
+    clothingItemId,
     { $addToSet: { likes: req.user._id } },
     { new: true }
   )
@@ -85,9 +83,9 @@ const likeClothingItem = (req, res, next) => {
 };
 
 const dislikeClothingItem = (req, res, next) => {
-  const { itemId } = req.params;
+  const { clothingItemId } = req.params;
   ClothingItem.findByIdAndUpdate(
-    itemId,
+    clothingItemId,
     { $pull: { likes: req.user._id } },
     { new: true }
   )

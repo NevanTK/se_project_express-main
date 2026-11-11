@@ -16,20 +16,15 @@ const signupValidation = celebrate({
 
 const userValidation = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
-
-    password: Joi.string().required().min(8),
-
-    userName: Joi.string().required().min(2).max(30),
-
-    userAvatar: Joi.string().required().uri({ scheme: ["http", "https"] }),
-  }),
+    name: Joi.string().min(2).max(30),
+    avatar: Joi.string().uri({ scheme: ["http", "https"] }),
+  }).min(1),
 });
 
 const clothingItemValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-
+    weather: Joi.string().required().valid("hot", "warm", "cold"),
     imageUrl: Joi.string().required().uri({ scheme: ["http", "https"] }),
   }),
 });
