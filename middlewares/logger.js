@@ -24,7 +24,16 @@ const errorLogger = expressWinston.errorLogger({
   format: messageFormat,
 });
 
+const applogger = winston.createLogger({
+  level: "info",
+  format: messageFormat,
+  transports: [
+    new winston.transports.Console(),
+  ],
+});
+
 module.exports = {
   requestLogger,
   errorLogger,
+  applogger,
 };

@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const Ok = require("../utils/OK");
 const InternalServerError = require("../utils/Internal");
 const NotFoundError = require("../utils/NotFound");
 const BadRequestError = require("../utils/BadRequest");
@@ -25,7 +24,7 @@ const getCurrentUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError("User not found");
       }
-      res.status(Ok).send(user);
+      res.status(200).send(user);
     })
     .catch((err) => {
       console.error(err);
@@ -46,7 +45,7 @@ const createUser = (req, res, next) => {
     .hash(password, 10)
     .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) =>
-      res.status(Ok).send({
+      res.status(200).send({
         _id: user._id,
         name: user.name,
         avatar: user.avatar,
@@ -101,7 +100,7 @@ const updateUser = (req, res, next) => {
       if (!user) {
         return next(new NotFoundError("User not found"));
       }
-      return res.status(Ok).send(user);
+      return res.status(200).send(user);
     })
     .catch((err) => {
       console.error(err);

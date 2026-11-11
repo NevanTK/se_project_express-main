@@ -4,7 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { errors } = require("celebrate");
-const { requestLogger, errorLogger } = require("./middlewares/logger");
+const { requestLogger, errorLogger, applogger } = require("./middlewares/logger");
 const mainRouter = require("./routes/index");
 
 const app = express();
@@ -24,6 +24,7 @@ app.get('/crash-test', () => {
 app.use(express.json());
 app.use(requestLogger);
 
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message =
@@ -34,7 +35,7 @@ app.use((err, req, res, next) => {
 
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
+    applogger.info(`App listening on port ${PORT}`);
   });
 }
 

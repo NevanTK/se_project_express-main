@@ -1,5 +1,4 @@
 const ClothingItem = require("../models/clothingItem");
-const Ok = require("../utils/OK");
 const InternalServerError = require("../utils/Internal");
 const NotFoundError = require("../utils/NotFound");
 const BadRequestError = require("../utils/BadRequest");
@@ -43,7 +42,7 @@ const deleteClothingItem = (req, res, next) => {
       return item.deleteOne();
     })
     .then(() => {
-      res.status(Ok).send({ message: "Clothing item deleted successfully" });
+      res.status(200).send({ message: "Clothing item deleted successfully" });
     })
     .catch((err) => {
       console.error(err);
