@@ -1,8 +1,8 @@
 const ClothingItem = require("../models/clothingItem");
-const InternalServerError = require("../utils/Internal");
-const NotFoundError = require("../utils/NotFound");
-const BadRequestError = require("../utils/BadRequest");
-const ForbiddenError = require("../utils/Forbidden");
+const {InternalServerError} = require("../utils/Internal");
+const {NotFoundError} = require("../utils/NotFound");
+const {BadRequestError} = require("../utils/BadRequest");
+const {ForbiddenError} = require("../utils/Forbidden");
 
 const createClothingItem = (req, res, next) => {
   const { name, weather, imageUrl } = req.body;

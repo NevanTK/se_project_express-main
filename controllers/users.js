@@ -1,11 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const InternalServerError = require("../utils/Internal");
-const NotFoundError = require("../utils/NotFound");
-const BadRequestError = require("../utils/BadRequest");
-const ConflictError = require("../utils/Conflict");
-const UnauthorizedError = require("../utils/Unauthorized");
+const {InternalServerError} = require("../utils/Internal");
+const {NotFoundError} = require("../utils/NotFound");
+const {BadRequestError} = require("../utils/BadRequest");
+const {ConflictError} = require("../utils/Conflict");
+const {UnauthorizedError} = require("../utils/Unauthorized");
 
 const getUsers = (req, res, next) => {
   User.find({})
